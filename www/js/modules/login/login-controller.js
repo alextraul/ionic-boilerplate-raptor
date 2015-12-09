@@ -1,6 +1,6 @@
-'use strict';
 
-function LoginController($scope, $ionicModal, $timeout) {
+angular.module('starter.controllers')
+.controller('LoginController', function($scope, $ionicModal){
   
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -39,5 +39,4 @@ function LoginController($scope, $ionicModal, $timeout) {
       $scope.closeLogin();
     }, 1000);
   };
-}
-module.exports = ['$scope', '$ionicModal', '$timeout', LoginController];
+})

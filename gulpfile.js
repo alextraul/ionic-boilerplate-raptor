@@ -6,13 +6,28 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
-
+//Additional dependencies added for browserify and lint
+var jshint = require('gulp-jshint'); 
+var browserify = require('browserify'); 
+var vinylSource = require('vinyl-source-stream');
 var paths = {
   sass: ['./scss/**/*.scss']
 };
+gulp.task('default', ['lint', 'browserify']);
 
-gulp.task('default', ['sass']);
+gulp.task('lint', function() { 
+ gulp.src(['./www/js/**/*.js']) 
+  .pipe(jshint()) 
+  .pipe(jshint.reporter('default')) 
+  .pipe(jshint.reporter('fail')); 
+});
 
+gulp.task('browserify', function() { 
+ return browserify('./www/js/app.js', {debug: true}) 
+  .bundle() 
+  .pipe(vinylSource('bundle.js')) 
+  .pipe(gulp.dest('./www/dist')); 
+});
 gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
     .pipe(sass())
